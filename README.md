@@ -5,6 +5,13 @@ cd wp/cmd/wp-sqlite
 go run main.go
 ```
 
+### scripts
+- scripts under `script` directory are to be run from root directory e.g `bash script/test.sh` instead of `cd script; bash test.sh`
+- docker build using script requires binary to built first, hence
+1. `bash script/build.sh`
+2. `bash script/dockerize.sh`
+- running on docker not tried locally, some issue with my docker container network to host connection LOL but i would assume it works on machine where docker is properly set up
+
 ### problem assessment
 - probably emulating chat application
 - chat would use websocket for sending as well most likely, so slight modification to the usual flow
@@ -31,7 +38,10 @@ an attempt to follow
 │   │       ├── message.go
 │   │       └── message_test.go
 │   └── handler					# handler layer is for interfaces with external application
-│       └── rest              	# in this case, using REST
+│       ├── rest              	# in this case, using REST
+│       │   ├── message.go
+│       │  	└── message_test.go
+│       └── websocket			# in this case, using websocket 
 │           ├── message.go
 │           └── message_test.go
 ├── pkg                       	# globally shared package
@@ -55,4 +65,5 @@ an attempt to follow
 #### short, repeated naming
 - [only for short-lived variables](https://talks.golang.org/2014/names.slide#18)
 #### testing
-- black box testing
+- black box testing preferance
+- should have done white box testing for one unexported function in pkg/validator but nvm
