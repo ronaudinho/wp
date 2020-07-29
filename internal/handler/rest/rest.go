@@ -21,14 +21,16 @@ type Service interface {
 
 // New creates new instance of REST handler
 func New(s Service) *REST {
-	return &REST{service: s}
+	return &REST{
+		service: s,
+	}
 }
 
 // WithRoutes sets routes for REST handler
 func (rst *REST) WithRoutes(rou *mux.Router) {
 	rou.HandleFunc("/healthcheck", healthcheck).Methods("GET")
-	rou.HandleFunc("/message", rst.GetMessages).Methods("GET")
 	rou.HandleFunc("/message", rst.CreateMessage).Methods("POST")
+	rou.HandleFunc("/message", rst.GetMessages).Methods("GET")
 	rou.HandleFunc("/message/live", rst.LiveMessage).Methods("GET")
 }
 

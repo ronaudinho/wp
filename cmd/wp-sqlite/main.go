@@ -20,7 +20,10 @@ import (
 	_ "github.com/mattn/go-sqlite3"
 )
 
+var addr = "127.0.0.1:3195"
+
 func main() {
+	// TODO probably let user set server config with flags/env file
 	db, err := sql.Open("sqlite3", "./message.db")
 	if err != nil {
 		panic(err)
@@ -30,7 +33,7 @@ func main() {
 		panic(err)
 	}
 	sqrepo := sqlite.New(db)
-	svc := service.New(sqrepo)
+	svc := service.New(sqrepo, addr)
 	rst := rest.New(svc)
 	wsc := websocket.New()
 	hndlr := handler.New([]handler.IHandler{rst, wsc})
@@ -38,9 +41,8 @@ func main() {
 	hndlr.WithRoutes(rou)
 
 	srv := &http.Server{
-		Handler: rou,
-		Addr:    "127.0.0.1:3195",
-		// Good practice: enforce timeouts for servers you create!
+		Handler:      rou,
+		Addr:         addr,
 		WriteTimeout: 15 * time.Second,
 		ReadTimeout:  15 * time.Second,
 	}

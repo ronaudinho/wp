@@ -5,13 +5,15 @@ import (
 )
 
 // SQLiteRepository
-type SQLiteRepository struct {
+type Repository struct {
 	db *sql.DB
 }
 
 // New creates new instance of SQLiteRepository
-func New(db *sql.DB) *SQLiteRepository {
-	return &SQLiteRepository{db: db}
+func New(db *sql.DB) *Repository {
+	return &Repository{
+		db: db,
+	}
 }
 
 // InitDB creates DB from scratch if it does not exist yet
