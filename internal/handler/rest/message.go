@@ -6,7 +6,6 @@ import (
 	"net/http"
 
 	"github.com/ronaudinho/wp/internal/model"
-	svc "github.com/ronaudinho/wp/internal/service"
 	"github.com/ronaudinho/wp/pkg/validator"
 )
 
@@ -40,8 +39,6 @@ func (rst *REST) CreateMessage(w http.ResponseWriter, r *http.Request) {
 		}.respond(w)
 		return
 	}
-	//  call websocket before responding
-	go svc.PushMessage(*msg.Message)
 	response{
 		Data:   msg,
 		Error:  nil,

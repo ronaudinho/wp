@@ -13,7 +13,7 @@ type RequiredError struct {
 
 // Error ensures RequiredError implements error interface
 func (re RequiredError) Error() string {
-	return fmt.Sprintf("required: field missing in JSON: %s", re.FieldJSON)
+	return fmt.Sprintf("required: field missing: %s (JSON: %s)", re.Field, re.FieldJSON)
 }
 
 // validateRequired validates struct field with tag `validate` that contains `required`
